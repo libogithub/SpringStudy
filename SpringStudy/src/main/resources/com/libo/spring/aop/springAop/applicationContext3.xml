@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<!-- dao配置 -->
+	<bean id="orgQuery" class="com.libo.spring.aop.springAop.dao.OrgQuery" />
+	<bean id="userQuery" class="com.libo.spring.aop.springAop.dao.UserQuery" />
+	
+	<!-- service配置 -->
+	<bean id="dbQueryService" class="com.libo.spring.aop.springAop.service.DBQueryService">
+		<property name="orgQuery" ref="orgQuery" />
+		<property name="userQuery"  ref="userQuery"/>
+	</bean>
+	
+	<bean id="securityInterceptor" class="com.libo.spring.aop.springAop.namesAutoProxy.SecurityInterceptor"/>
+	
+	<bean id="logInterceptor" class="com.libo.spring.aop.springAop.namesAutoProxy.LogInterceptor" />
+	
+	<!-- 基于名字的自动代理 -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>dbQueryService</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>securityInterceptor</value>
+				<value>logInterceptor</value>
+			</list>
+		</property>
+	</bean>
+</beans>

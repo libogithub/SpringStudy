@@ -1,0 +1,61 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- h2数据源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:./test" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- dao配置 -->
+	<bean id="accountDao"
+		class="com.libo.spring.trancation.springtranspoxy.dao.AccountDaoImp">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- service配置 -->
+	<bean id="accountService"
+		class="com.libo.spring.trancation.springtranspoxy.service.AccountService">
+		<property name="accountDao" ref="accountDao" />
+	</bean>
+
+	<!-- 事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- Spring 事务代理 -->
+	<bean id="accountServiceTransProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<!-- 要在哪个Bean上面创建事务代理对象 -->
+		<property name="target" ref="accountService" />
+		<!-- 为事务代理工厂Bean注入事务管理器 -->
+		<property name="transactionManager" ref="txManager" />
+		<!-- 指定事务属性 -->
+		<property name="transactionAttributes">
+			<props>
+				<!-- prop值
+				              传播行为，
+				              隔离级别(可选)，
+				              是否为只读(可选)，
+				              发生这些异常时回滚(可选)，
+				              发生这些异常时照样提交(可选)
+				     例子:
+				     <prop>PROPAGATION,ISOLATION,readOnly,-Exception,+Exception</prop>
+				-->
+				<prop key="transfer">PROPAGATION_REQUIRED,-java.lang.ArithmeticException</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

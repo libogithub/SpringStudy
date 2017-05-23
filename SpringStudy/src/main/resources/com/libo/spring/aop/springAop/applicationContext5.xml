@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	
+	<!-- dao配置 -->
+	<bean id="orgQuery" class="com.libo.spring.aop.springAop.dao.OrgQuery" />
+	<bean id="userQuery" class="com.libo.spring.aop.springAop.dao.UserQuery" />
+	
+	<!-- service配置 -->
+	<bean id="dbQueryService" class="com.libo.spring.aop.springAop.service.DBQueryService">
+		<property name="orgQuery" ref="orgQuery" />
+		<property name="userQuery"  ref="userQuery"/>
+	</bean>
+	
+	<bean id="secutityAdvice" class="com.libo.spring.aop.springAop.autoproxyXml.SecutityAdvice"/>
+	
+	<!-- 自动代理 -->
+	<aop:aspectj-autoproxy />
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="secutityAdvice">
+			<aop:pointcut id="pointcut" expression="execution(* com.libo.spring.aop.springAop.service..*(..))"/>
+			<aop:before method="secutityCheck" pointcut-ref="pointcut"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

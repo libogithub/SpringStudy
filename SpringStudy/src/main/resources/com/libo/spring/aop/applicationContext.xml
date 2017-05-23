@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<!-- dao配置 -->
+	<bean id="orgQuery" class="com.libo.spring.aop.AopBeanPostProcesser.dao.OrgQuery" />
+	<bean id="userQuery" class="com.libo.spring.aop.AopBeanPostProcesser.dao.UserQuery" />
+	
+	<!-- service配置 -->
+	<bean id="dbQueryService" class="com.libo.spring.aop.AopBeanPostProcesser.service.DBQueryService">
+		<property name="orgQuery" ref="orgQuery" />
+		<property name="userQuery"  ref="userQuery"/>
+	</bean>
+	 
+	<!-- bean后置处理器  -->
+	<bean id="dbBeanPostProcessor" class="com.libo.spring.aop.AopBeanPostProcesser.beanPostProcesser.DBBeanPostProcessor" />
+	
+</beans>
