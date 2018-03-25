@@ -26,7 +26,6 @@ public class AccountService implements AccountInterface {
 				accountDao.outMoney(out, money);
 				int i = 10/0 ;
 				accountDao.inMoney(in, money);
-
 			}
 		});
 

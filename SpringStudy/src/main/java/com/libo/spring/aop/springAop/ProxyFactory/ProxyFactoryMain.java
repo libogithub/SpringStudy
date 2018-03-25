@@ -31,7 +31,7 @@ public class ProxyFactoryMain {
 		//DBQueryService dbQueryServiceProxy = (DBQueryService)proxyFactory.getProxy();
 		
 		//如果被代理对象实现了接口那么Spring就会使用jdk的代理方式生成代理对象
-		DBQueryService dbQueryServiceProxy = (DBQueryService)proxyFactory.getProxy();
+		IDBQueryService dbQueryServiceProxy = (IDBQueryService)proxyFactory.getProxy();
 		
 		System.out.println(dbQueryServiceProxy.getClass());
 		dbQueryServiceProxy.serviceOrgQuery();

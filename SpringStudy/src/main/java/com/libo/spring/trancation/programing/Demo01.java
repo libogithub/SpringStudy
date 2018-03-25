@@ -32,7 +32,7 @@ public class Demo01 {
 	}
 	
 	@Test
-	@Sql("classpath:/com/libo/spring/trancation/initH2.sql")
+	//@Sql("classpath:/com/libo/spring/trancation/initH2.sql")
 	public void testTransfer(){
 		accountService.transfer("caobaoyu", "libo", 200);
 	}

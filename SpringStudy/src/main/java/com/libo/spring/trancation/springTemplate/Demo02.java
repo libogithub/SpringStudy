@@ -19,7 +19,7 @@ import com.libo.spring.trancation.springTemplate.service.AccountInterface;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:classpath:/com/libo/spring/trancation/applicationContext2.xml")
+@ContextConfiguration(locations = "classpath:/com/libo/spring/trancation/applicationContext2.xml")
 public class Demo02 {
 	
 	@Autowired

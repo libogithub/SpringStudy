@@ -13,7 +13,7 @@ public class DBQueryService {
 		DbQueryProxy dbQueryProxy = new DbQueryProxy();
 		//生成DbQuery的被代理对象
 		IDBquery dBquery = (IDBquery)dbQueryProxy.bind(new DbQuery());
-		dBquery.query("123");
 		System.out.println(dBquery.getClass());
+		dBquery.query("123");
 	}
 }

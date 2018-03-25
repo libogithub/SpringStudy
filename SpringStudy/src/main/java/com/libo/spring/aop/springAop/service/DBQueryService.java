@@ -6,7 +6,7 @@ import com.libo.spring.aop.springAop.dao.IUserQuery;
 /**
  * jdk动态代理的缺点: 被代理对象必须实现接口。
  */
-public class DBQueryService{
+public class DBQueryService implements IDBQueryService{
 
 	private IOrgQuery orgQuery;
 	
